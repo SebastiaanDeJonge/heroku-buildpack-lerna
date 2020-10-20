@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -e
+
+BUILD_DIR=${1:-}
+CACHE_DIR=${2:-}
+ENV_DIR=${3:-}
+BUILDPACK_DIR=$(cd "$(dirname "${0:-}")"; cd ..; pwd)
+STAGE="$(mktemp -d)"
+
+source "$BUILDPACK_DIR/lib/output.sh"
+
+if [ ! -f "${ENV_DIR}/APP_BASE" ]; then
+    error "ERROR: APP_BASE has not been defined"
+    exit 1
+fi
+
+APP_BASE="$(cat "${ENV_DIR}/APP_BASE")"
+
+# Move to build directory
+cd "${BUILD_DIR}"
+
+
+header "Bootstrapping ${APP_BASE}"
+lerna bootstrap --scope="${APP_BASE}" --include-filtered-dependencies 2>&1 | output
+
+header "Building ${APP_BASE}"
+lerna run build --scope="${APP_BASE}" --include-filtered-dependencies --stream 2>&1 | output
+
+header "Build completed"
