@@ -34,10 +34,10 @@ lerna bootstrap --scope="${APP_PACKAGE_NAME}" --include-dependencies 2>&1 | outp
 header "Building ${APP_PACKAGE_NAME}"
 lerna run build --scope="${APP_PACKAGE_NAME}" --include-dependencies --stream 2>&1 | output
 
-# Replace build directory contents with built application
+# Replace the entire monorepo contents with just those of the built app
 header "Replacing full build with application build only"
+mv "./${APP_BASE}" "../${STAGE}"
 cd ../
-mv "./${APP_BASE}" "${STAGE}"
 rm -rf "${BUILD_DIR}"
 mkdir "${BUILD_DIR}"
 mv "${STAGE}/*" "${BUILD_DIR}"
