@@ -40,6 +40,6 @@ cd ../
 mv "${BUILD_DIR}/${APP_BASE}" "${STAGE}"
 rm -rf "${BUILD_DIR}"
 mkdir "${BUILD_DIR}"
-mv "${STAGE}" "${BUILD_DIR}"
+mv "${STAGE}/*" "${BUILD_DIR}"
 
 header "Build completed"
