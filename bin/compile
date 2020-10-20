@@ -7,23 +7,31 @@ ENV_DIR=${3:-}
 BUILDPACK_DIR=$(cd "$(dirname "${0:-}")"; cd ..; pwd)
 STAGE="$(mktemp -d)"
 
+# Include output helpers
 source "$BUILDPACK_DIR/lib/output.sh"
 
+# Ensure the APP_BASE path exists
 if [ ! -f "${ENV_DIR}/APP_BASE" ]; then
     error "ERROR: APP_BASE has not been defined"
     exit 1
 fi
 
+# Define absolute path to base directory
 APP_BASE="$(cat "${ENV_DIR}/APP_BASE")"
 
 # Move to build directory
 cd "${BUILD_DIR}"
 
+# Read the package name from its package.json
+header "Fetching package name from package.json inside ${APP_BASE}"
+APP_PACKAGE_NAME="$(node -pe "require('${APP_BASE}/package.json')[\"name\"]")"
 
-header "Bootstrapping ${APP_BASE}"
-lerna bootstrap --scope="${APP_BASE}" --include-filtered-dependencies 2>&1 | output
+# Run Lerna bootstrap
+header "Bootstrapping ${APP_PACKAGE_NAME}"
+lerna bootstrap --scope="${APP_PACKAGE_NAME}" --include-dependencies 2>&1 | output
 
-header "Building ${APP_BASE}"
-lerna run build --scope="${APP_BASE}" --include-filtered-dependencies --stream 2>&1 | output
+# Run build script on package
+header "Building ${APP_PACKAGE_NAME}"
+lerna run build --scope="${APP_PACKAGE_NAME}" --include-dependencies --stream 2>&1 | output
 
 header "Build completed"
