@@ -24,7 +24,7 @@ cd "${BUILD_DIR}"
 
 # Read the package name from its package.json
 header "Fetching package name from package.json inside ${APP_BASE}"
-APP_PACKAGE_NAME="$(node -pe "require('${ENV_DIR}/${APP_BASE}/package.json')[\"name\"]")"
+APP_PACKAGE_NAME="$(node -pe "require('./${APP_BASE}/package.json')[\"name\"]")"
 
 # Run Lerna bootstrap
 header "Bootstrapping ${APP_PACKAGE_NAME}"
