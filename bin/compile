@@ -42,6 +42,6 @@ header "Clearing build directory"
 rm -rf "${BUILD_DIR}"
 mkdir "${BUILD_DIR}"
 header "Finalizing staged build"
-mv "${STAGE}/${APP_BASE}" "${BUILD_DIR}"
+mv "${STAGE}" "${BUILD_DIR}"
 
 header "Build completed"
