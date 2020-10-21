@@ -40,8 +40,12 @@ ls -lAh
 # Replace the entire monorepo contents with just those of the built app
 cd ../
 SOURCE_PATH="${BUILD_DIR}/${APP_BASE}"
+HEROKU_PATH="${BUILD_DIR}/.heroku"
+PROFILE_PATH="${BUILD_DIR}/.profile.d}"
 header "Staging built changes (${SOURCE_PATH} => ${STAGE})"
 mv "${SOURCE_PATH}" "${STAGE}"
+mv "${HEROKU_PATH}" "${STAGE}"
+mv "${PROFILE_PATH}" "${STAGE}"
 
 header "Clearing build directory (${BUILD_DIR})"
 rm -rf "${BUILD_DIR}"
