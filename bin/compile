@@ -9,6 +9,10 @@ STAGE="$(mktemp -d)"
 
 # Include output helpers
 source "$BUILDPACK_DIR/lib/output.sh"
+source "$BUILDPACK_DIR/lib/utils/env.sh"
+
+# Export environment variables
+export_env "${ENV_DIR}" "" ""
 
 # Ensure the APP_BASE path exists
 if [ ! -f "${ENV_DIR}/APP_BASE" ]; then
