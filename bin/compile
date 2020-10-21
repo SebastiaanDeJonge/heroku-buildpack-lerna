@@ -83,5 +83,6 @@ header "Build completed"
 
 # Run Heroku post-build scripts
 header "Running post-build scripts"
+cd "${BUILD_DIR}"
 npm run heroku-postbuild
 info "All done!"
