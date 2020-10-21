@@ -45,7 +45,7 @@ mv "${SOURCE_PATH}" "${STAGE}"
 
 header "Staging Heroku binaries (${BUILD_DIR}/.heroku => ${STAGE}/.heroku)"
 mv "${BUILD_DIR}/.heroku" "${STAGE}/.heroku"
-header "Staging profile (${BUILD_DIR}/.profile.d => ${STAGE})/.profile.d"
+header "Staging profile (${BUILD_DIR}/.profile.d => ${STAGE}/.profile.d)"
 mv "${BUILD_DIR}/.profile.d" "${STAGE}/.profile.d"
 
 ls -lAh "${STAGE}"
