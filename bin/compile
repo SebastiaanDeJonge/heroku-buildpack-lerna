@@ -9,7 +9,7 @@ STAGE="$(mktemp -d)"
 
 # Include output helpers
 source "$BUILDPACK_DIR/lib/output.sh"
-source "$BUILDPACK_DIR/lib/utils/env.sh"
+source "$BUILDPACK_DIR/lib/env.sh"
 
 # Export environment variables
 export_env "${ENV_DIR}" "" ""
