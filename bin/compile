@@ -36,11 +36,12 @@ lerna run build --scope="${APP_PACKAGE_NAME}" --include-dependencies --stream 2>
 
 # Replace the entire monorepo contents with just those of the built app
 header "Staging built changes"
-mv "${BUILD_DIR}/${APP_BASE}/" "${STAGE}/${BUILD_DIR}"
+mv "${BUILD_DIR}/${APP_BASE}/" "${STAGE}"
 cd ../
 header "Clearing build directory"
 rm -rf "${BUILD_DIR}"
+mkdir "${BUILD_DIR}"
 header "Finalizing staged build"
-mv "${STAGE}/${BUILD_DIR}" "./"
+mv "${STAGE}/${APP_BASE}/" "${BUILD_DIR}"
 
 header "Build completed"
