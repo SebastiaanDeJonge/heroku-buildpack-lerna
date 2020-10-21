@@ -53,7 +53,6 @@ do
     MODULE_ROOT=$(dirname "${LINK_PATH}")
     LINK_TARGET=$(readlink "${LINK_PATH}")
     ABS_LINK_TARGET="${MODULE_ROOT}/${LINK_TARGET}"
-    stat "${ABS_LINK_TARGET}"
     unlink "${LINK_PATH}"
     cp -R "${ABS_LINK_TARGET}" "${MODULE_ROOT}"
   fi
@@ -81,3 +80,8 @@ info "Finalizing staged build (${STAGE}/${APP_DIR} => ${BUILD_DIR})"
 mv "${STAGE}/${APP_DIR}" "${BUILD_DIR}"
 
 header "Build completed"
+
+# Run Heroku post-build scripts
+header "Running post-build scripts"
+npm run heroku-postbuild
+info "All done!"
