@@ -43,9 +43,9 @@ SOURCE_PATH="${BUILD_DIR}/${APP_BASE}"
 header "Staging built changes (${SOURCE_PATH} => ${STAGE})"
 mv "${SOURCE_PATH}" "${STAGE}"
 
-header "Staging Heroku binaries (${BUILD_DIR}/.heroku => ${STAGE})"
+header "Staging Heroku binaries (${BUILD_DIR}/.heroku => ${STAGE}/.heroku)"
 mv "${BUILD_DIR}/.heroku" "${STAGE}/.heroku"
-header "Staging profile (${BUILD_DIR}/.profile.d => ${STAGE})"
+header "Staging profile (${BUILD_DIR}/.profile.d => ${STAGE})/.profile.d"
 mv "${BUILD_DIR}/.profile.d" "${STAGE}/.profile.d"
 
 ls -lAh "${STAGE}"
