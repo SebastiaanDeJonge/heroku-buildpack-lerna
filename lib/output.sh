@@ -20,6 +20,10 @@ header() {
   echo "-----> $*" || true
 }
 
+info() {
+  echo "       $*" || true
+}
+
 error() {
   echo " !     $*" >&2 || true
   newline
