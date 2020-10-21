@@ -34,18 +34,21 @@ lerna bootstrap --scope="${APP_PACKAGE_NAME}" --include-dependencies 2>&1 | outp
 header "Building ${APP_PACKAGE_NAME}"
 lerna run build --scope="${APP_PACKAGE_NAME}" --include-dependencies --stream 2>&1 | output
 
-# List build path contents
+# List build path contentsls
 ls -lAh
 
 # Replace the entire monorepo contents with just those of the built app
 cd ../
 SOURCE_PATH="${BUILD_DIR}/${APP_BASE}"
-HEROKU_PATH="${BUILD_DIR}/.heroku"
-PROFILE_PATH="${BUILD_DIR}/.profile.d"
 header "Staging built changes (${SOURCE_PATH} => ${STAGE})"
 mv "${SOURCE_PATH}" "${STAGE}"
-mv "${HEROKU_PATH}" "${STAGE}"
-mv "${PROFILE_PATH}" "${STAGE}"
+
+header "Staging Heroku binaries (${BUILD_DIR}/.heroku => ${STAGE})"
+mv "${BUILD_DIR}/.heroku" "${STAGE}/.heroku"
+header "Staging profile (${BUILD_DIR}/.profile.d => ${STAGE})"
+mv "${BUILD_DIR}/.profile.d" "${STAGE}/.profile.d"
+
+ls -lAh "${STAGE}"
 
 header "Clearing build directory (${BUILD_DIR})"
 rm -rf "${BUILD_DIR}"
