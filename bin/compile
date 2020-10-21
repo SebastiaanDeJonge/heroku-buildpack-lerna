@@ -38,24 +38,46 @@ lerna bootstrap --scope="${APP_PACKAGE_NAME}" --include-dependencies 2>&1 | outp
 header "Building ${APP_PACKAGE_NAME}"
 lerna run build --scope="${APP_PACKAGE_NAME}" --include-dependencies --stream 2>&1 | output
 
+# Replace symbolic links with the actual module contents
+header "Replacing symoblically linked packages"
+info "Scanning Lerna packages ..."
+LERNA_LS=$(lerna ls)
+PACKAGES=($(echo $LERNA_LS | tr " " "\n"))
+
+# @todo this should be extended to be recursive, in order to support deeper nesting
+for i in "${PACKAGES[@]}"
+do
+  LINK_PATH="./${APP_BASE}/node_modules/${i}"
+  if [[ -L "${LINK_PATH}" ]]; then
+    info "Replacing ${i}"
+    MODULE_ROOT=$(dirname "${LINK_PATH}")
+    LINK_TARGET=$(readlink "${LINK_PATH}")
+    ABS_LINK_TARGET="${MODULE_ROOT}/${LINK_TARGET}"
+    stat "${ABS_LINK_TARGET}"
+    unlink "${LINK_PATH}"
+    cp -R "${ABS_LINK_TARGET}" "${MODULE_ROOT}"
+  fi
+done
+
 # Replace the entire monorepo contents with just those of the built app
+header "Replacing monorepo contents with required application only"
 cd ../
 SOURCE_PATH="${BUILD_DIR}/${APP_BASE}"
 APP_DIR=$(basename "${SOURCE_PATH}")
 
-header "Staging built changes (${SOURCE_PATH} => ${STAGE})"
+info "Staging built changes (${SOURCE_PATH} => ${STAGE})"
 mv "${SOURCE_PATH}" "${STAGE}"
 
-header "Staging Heroku binaries (${BUILD_DIR}/.heroku => ${STAGE}/${APP_DIR}/.heroku)"
+info "Staging Heroku binaries (${BUILD_DIR}/.heroku => ${STAGE}/${APP_DIR}/.heroku)"
 mv "${BUILD_DIR}/.heroku" "${STAGE}/${APP_DIR}/.heroku"
 
-header "Staging profile (${BUILD_DIR}/.profile.d => ${STAGE}/${APP_DIR}/.profile.d)"
+info "Staging profile (${BUILD_DIR}/.profile.d => ${STAGE}/${APP_DIR}/.profile.d)"
 mv "${BUILD_DIR}/.profile.d" "${STAGE}/${APP_DIR}/.profile.d"
 
-header "Clearing build directory (${BUILD_DIR})"
+info "Clearing build directory (${BUILD_DIR})"
 rm -rf "${BUILD_DIR}"
 
-header "Finalizing staged build (${STAGE}/${APP_DIR} => ${BUILD_DIR})"
+info "Finalizing staged build (${STAGE}/${APP_DIR} => ${BUILD_DIR})"
 mv "${STAGE}/${APP_DIR}" "${BUILD_DIR}"
 
 header "Build completed"
