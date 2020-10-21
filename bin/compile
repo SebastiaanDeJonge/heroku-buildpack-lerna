@@ -34,6 +34,9 @@ lerna bootstrap --scope="${APP_PACKAGE_NAME}" --include-dependencies 2>&1 | outp
 header "Building ${APP_PACKAGE_NAME}"
 lerna run build --scope="${APP_PACKAGE_NAME}" --include-dependencies --stream 2>&1 | output
 
+# List build path contents
+ls -lAh
+
 # Replace the entire monorepo contents with just those of the built app
 cd ../
 SOURCE_PATH="${BUILD_DIR}/${APP_BASE}"
