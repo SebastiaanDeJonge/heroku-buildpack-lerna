@@ -41,7 +41,7 @@ ls -lAh
 cd ../
 SOURCE_PATH="${BUILD_DIR}/${APP_BASE}"
 HEROKU_PATH="${BUILD_DIR}/.heroku"
-PROFILE_PATH="${BUILD_DIR}/.profile.d}"
+PROFILE_PATH="${BUILD_DIR}/.profile.d"
 header "Staging built changes (${SOURCE_PATH} => ${STAGE})"
 mv "${SOURCE_PATH}" "${STAGE}"
 mv "${HEROKU_PATH}" "${STAGE}"
