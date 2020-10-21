@@ -45,7 +45,7 @@ rm -rf "${BUILD_DIR}"
 mkdir "${BUILD_DIR}"
 
 header "Finalizing staged build (${STAGE}/${APP_DIR} => ${BUILD_DIR})"
-APP_DIR=${basename $SOURCE_PATH}
+APP_DIR=${basename "${SOURCE_PATH}"}
 mv "${STAGE}/${APP_DIR}" "${BUILD_DIR}"
 
 header "Build completed"
