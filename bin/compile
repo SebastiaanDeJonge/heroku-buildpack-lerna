@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+# Ensure wildcards in globs match dotfiles too.
+shopt -s dotglob
+
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
@@ -74,10 +77,10 @@ info "Staging profile (${BUILD_DIR}/.profile.d => ${STAGE}/${APP_DIR}/.profile.d
 mv "${BUILD_DIR}/.profile.d" "${STAGE}/${APP_DIR}/.profile.d"
 
 info "Clearing build directory (${BUILD_DIR})"
-rm -rf "${BUILD_DIR}"
+rm -rf "${BUILD_DIR}"/*
 
 info "Finalizing staged build (${STAGE}/${APP_DIR} => ${BUILD_DIR})"
-mv "${STAGE}/${APP_DIR}" "${BUILD_DIR}"
+mv "${STAGE}/${APP_DIR}"/* "${BUILD_DIR}"
 
 header "Build completed"
 
