@@ -10,15 +10,17 @@ storybook).
 * The `package.json` inside the root of your project included `lerna` as `devDependency`
 * `YARN_PRODUCTION` is set to `false` inside your Heroku config
 * `APP_BASE` inside your Heroku config points to the relative path of your application
+* The NodeJS buildpack must be defined before this one
 
 ## Example
 ```
 my-monorepo
     |-- packages
+        |-- my-components
         |-- my-utilities
-        |-- my-tools
     |-- services
         |-- my-app
+            |-- package.json
         |-- my-api
             |-- package.json
     |-- lerna.json
